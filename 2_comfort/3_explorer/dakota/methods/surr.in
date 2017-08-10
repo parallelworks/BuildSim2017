@@ -1,0 +1,84 @@
+environment
+ tabular_data
+  tabular_data_file = 'out.dat'
+  method_pointer = 'METHOD_ON_SURR'
+  custom_annotated header eval_id	# no interface column
+
+method
+ id_method = 'METHOD_ON_SURR'
+ model_pointer = 'SURR_MODEL'
+   
+ list_parameter_study
+    import_points_file = 'points.dat'
+    custom_annotated header
+
+ # use the settings below to test the surrogate model
+ #sampling
+ #sample_type lhs
+ #seed = 52983
+ #samples = 100
+
+model                                                 
+ id_model = 'SURR_MODEL'                                
+ surrogate global                                                        
+ dace_method_pointer = 'DACE'  
+   samples_file = 'samples.dat' 
+ total_points @@TOTAL_SAMPLES@@
+ custom_annotated header eval_id	# no interface column
+   gaussian_process surfpack 
+
+method
+ id_method = 'DACE'                              
+ model_pointer = 'DACE_M'     
+ sampling
+ sample_type lhs
+ seed = 1
+ samples = 0 # specify zero here to load surrogate samples from text file
+
+model                                                 
+ id_model = 'DACE_M'                             
+ single                                                   
+ variables_pointer = 'V1' 
+ interface_pointer = 'I1'                     
+ responses_pointer = 'R1' 
+
+variables
+ id_variables = 'V1'
+ 
+ descriptors @@INPUT_DESCRIPTORS@@
+ 
+ #discrete_design_set 
+ #real = @@NUMBER_OF_INPUTS@@
+ #num_set_values = @@NUM_SET_VALUES@@
+ #set_values = @@SET_VALUES@@
+ 
+ uniform_uncertain = @@NUMBER_OF_INPUTS@@
+ upper_bounds     @@MAX_INPUTS@@  
+ lower_bounds     @@MIN_INPUTS@@
+
+interface
+ id_interface = 'I1'  
+	fork
+        asynchronous
+          evaluation_concurrency = @@EVALUATION_CONCURRENCY@@
+          local_evaluation_scheduling dynamic
+# When using work_directory, the analysis_drivers may be given by:
+# 1) an absolute path, 2) located in (or relative to) the startup directory alongside the Dakota input file, 3) in the list of template files linked or copied, 4) or on the $PATH (Path% on Windows).
+        analysis_driver = 'simulator_script'
+        parameters_file = 'params.in'
+        results_file    = 'results.out'
+        work_directory directory_tag
+        named = 'work_dir/dakota_tmp'
+        directory_save
+        replace
+        copy_files = 'templatedir/*'
+   # named 'workdir' file_save directory_save
+        aprepro
+   deactivate active_set_vector
+
+responses
+ id_responses = 'R1'   
+ num_response_functions = @@NUMBER_OF_OUTPUTS@@
+ response_descriptors = @@OUTPUT_DESCRIPTORS@@
+ no_gradients
+ no_hessians

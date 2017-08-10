@@ -1,0 +1,14 @@
+duct_width;geometry;0.3
+duct_window_margin;geometry;0.25
+duct_outlet_width;geometry;0.1
+duct_outlet_length;geometry;0.5 1.5
+outlet_length;geometry;1
+outlet_height;geometry;2.5
+outlet_width;geometry;0.2
+inlet_velocity;bc;5
+inlet_temp;bc;280
+glass_temp;bc;310
+floor_flux;bc;800
+mesh_resolution;simulation;50
+end_time;simulation;100
+num_proc;simulation;2

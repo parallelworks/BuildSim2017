@@ -1,0 +1,67 @@
+<tool id='rpict_timelapse_v2' name='rpict_timelapse_v2'>
+  <command interpreter='swift'>rad.swift</command>
+  <inputs>
+  <section name="inputfiles" type="section" title="Input Files" expanded="true">
+    <param name='rad' format='rad' help='Example: geometry.rad' type='data' label='Radiance File (.rad)' width='50%'>
+    </param>
+    <param name='mat' format='rad' help='Example: material.rad' type='data' label='Material File (.rad)' width='50%'>
+    </param>
+    </section> 
+    
+   <section name="radsettings" type="section" title="Radiance Settings" expanded="true">
+    <param name="sky" type="select" help='Radiance GenSky Option' label="Sky Type" width="50%" argument="none">
+            <option value="+s" selected="true">Sunny with Sun</option>
+            <option value="-s" selected="true">Sunny without Sun</option>
+            <option value="-c" selected="true">Cloudy</option>
+            <option value="+i" selected="true">Intermediate with Sun</option>
+            <option value="-i" selected="true">Intermediate without Sun</option>
+            <option value="+u" selected="true">Uniform Cloudly</option>
+    </param>
+    <param name='loc' help='Sky location correlating to -a -o and -m radiance values. Example: 46 123 120' type='text' label='Location (Lat Lng Mer)' value='46 123 120' width='50%'>
+    </param>
+    
+    <param name="viewtype" type="select" help='Radiance view type (-vt)' label="View Type" width="50%" argument="none">
+            <option value="v" selected="true">Perspective</option>
+            <option value="l" selected="true">Parallel</option>
+            <option value="c" selected="true">Cylindrical</option>
+            <option value="h" selected="true">Hemispherical Fisheye</option>
+            <option value="a" selected="true">Angular Fisheye</option>
+            <option value="s" selected="true">Stereographic</option>
+    </param>
+    
+    <param name='viewsize' help='View size horizontal (vh) and vertical (vv) values. Example: 44.5 30.4' type='text' label='View Size (vh vv)' value='44.5 30.4' width='50%'>
+    </param>
+    
+    <param name='dim' help='Image dimensions as x y values. Example: 1600 1200' type='text' label='Image Dimensions (X Y)' value='400 300' width='50%'>
+    </param>
+    
+    <param name='params' help='Radiance rendering parameters' type='text' value='-ab 2 -ad 512 -as 20 -ar 64 -aa 0.2 -ps 2 -pt .05 -pj .9 -dj .7 -ds .15 -dt .05 -dc .75 -dr 3 -dp 512 -st .15 -lr 8 -lw .005' label='Rendering Parameters' width='50%'>
+    </param>
+    
+    <param name='falsecolor' help='Falsecolor the results?' type='boolean' label='Falsecolor Images?' value='400 300' width='50%'>
+    </param>
+    <param name='fc_max' help='Falsecolor scale maximum value.' type='integer' min='1' max='100' label='Falsecolor Scale Max Value' value='15' width='50%'>
+    </param>
+    
+  </section>
+  
+  <section name="parameters" type="section" title="Parameter Files" expanded="true">
+    <param name='cams' format='txt' help='List of camera positions to loop over. Run the getRhinoCameras.py to get the list of camera angles. Example: input_cams.txt' type='data' label='Camera File (.txt)' width='33%'>
+    </param>
+    <param name='day' format='txt' help='List of days to loop over. Example: input_days.txt' type='data' label='Day File (.txt)' width='33%'>
+    </param>
+    <param name='time' format='txt' help='List of times to loop over. Example: input_times.txt' type='data' label='Time File (.txt)' width='33%'>
+    </param>
+  </section>
+  
+  </inputs>
+  <outputs>
+    <data name='outtab' format='tabular' label='rpict_time-DATA'>
+    </data>
+    <data name='outtar' format='tgz' label='rpict_time-GIFS'>
+    </data>
+    <data name='outhtml' format='html' label='rpict_time-HTML'>
+    </data>
+  </outputs>
+</tool>
+

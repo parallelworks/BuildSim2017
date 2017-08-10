@@ -1,0 +1,82 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|       o          |                                                          |
+|    o     o       | HELYX-OS                                                  |
+|   o   O   o      | Version: v2.4.0                                           |
+|    o     o       | Web:     http://www.engys.com                            |
+|       o          |                                                          |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version 2.0;
+    format ascii;
+    class volScalarField;
+    location "0";
+    object T;
+}
+dimensions [ 0 0 0 1 0 0 0 ];
+internalField uniform 300.0;
+boundaryField
+{
+
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+    
+    interior_Glass
+    {
+        type fixedValue;
+        value uniform @@glass_temp@@;
+    }
+
+    interior_Floor
+    {
+        type fixedGradient;
+        gradient uniform @@floor_flux@@;
+        value uniform 310;
+    }
+
+    interior_SideRight
+    {
+        type zeroGradient;
+    }
+
+    interior_SideLeft
+    {
+        type zeroGradient;
+    }
+
+    interior_SideBack
+    {
+        type zeroGradient;
+    }
+
+    interior_Ceiling
+    {
+        type zeroGradient;
+    }
+
+    interior_Duct
+    {
+        type zeroGradient;
+    }
+
+    interior_Inlet
+    {
+        type inletOutlet;
+        inletValue uniform @@inlet_temp@@;
+        value uniform @@inlet_temp@@;
+    }
+
+    interior_Outlet
+    {
+        type zeroGradient;
+    }
+
+    interior_Person1
+    {
+        type fixedGradient;
+        gradient uniform 1200;
+        value uniform 310;
+    }
+
+
+}

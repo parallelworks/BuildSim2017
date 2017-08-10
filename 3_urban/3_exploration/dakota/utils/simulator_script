@@ -1,0 +1,50 @@
+#!/bin/bash
+
+metricLocation=results/metrics/case_0.csv
+constraintLocation=results/case_0/area.txt
+
+export PATH=$PATH:/swift-k-bin/bin
+
+# get the coaster service address
+coasterurl=$(cat swift.conf | grep URL | sed "s/URL: \"//g" | sed "s/\"//")
+
+dprepro $1 input.template input.in --output-format="%f"
+
+cp input.in params.run
+cp $1 ori.in
+
+chmod 777 -R *
+
+usebatch=true
+
+if [ "$usebatch" == "true" ] 
+then
+
+	rm READY_RETURN.txt > /dev/null 2>&1
+	
+	# add the job to the batch
+	echo "1" > READY_SWIFT.txt
+	
+	# loop until the job is complete
+	while [ ! -e "READY_RETURN.txt" ]
+	do
+		sleep 5 #seconds
+	done
+	
+	#timeout=600 #seconds
+	#let timeout=timeout-10
+	#if [ "$timeout" -lt "0" ]
+	#then
+	#	break
+	#fi
+	
+else
+	swift -config swift.conf main.swift # -paramFile=dakotaParams.run
+fi
+
+# pull the desired metrics from the metrics file
+mexdir=models/mexdex
+python $mexdir/pullMetrics.py models/kpi.json $mexdir/DEoutputParams.txt $metricLocation results.txt
+cat $constraintLocation >> results.txt
+
+cp results.txt $2

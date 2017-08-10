@@ -1,0 +1,3 @@
+building1_height: 15
+building2_height: 15
+building3_height: 15

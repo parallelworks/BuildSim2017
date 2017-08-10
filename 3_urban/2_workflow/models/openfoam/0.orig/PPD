@@ -1,0 +1,85 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      PPD;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    merged_domain_ground
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    merged_inlet
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    merged_outlet
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    merged_domain
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    merged_water
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    merged_ground
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    merged_building3
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    merged_building2
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    merged_building1
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+}
+
+
+// ************************************************************************* //

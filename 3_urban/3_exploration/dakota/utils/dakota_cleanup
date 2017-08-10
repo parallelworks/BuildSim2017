@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm dakota.rst 				> /dev/null 2>&1
+rm LHS* 				> /dev/null 2>&1
+rm out_*					> /dev/null 2>&1			

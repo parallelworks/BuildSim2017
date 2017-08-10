@@ -1,0 +1,942 @@
+<html>
+
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css">
+
+    <title>Optimization Viewer</title>
+
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-ui-Slider-Pips/1.11.1/jquery-ui-slider-pips.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jQuery-ui-Slider-Pips/1.11.1/jquery-ui-slider-pips.min.css">
+
+    <style>
+        #steps {
+            width: 6em;
+            text-align: right;
+        }
+        
+        #colors {
+            width: 98%;
+        }
+        
+        svg {
+            margin: 10px 0;
+        }
+        
+        svg path {
+            stroke: #000;
+            stroke-width: 2px;
+            fill: none;
+            shape-rendering: crispEdges;
+        }
+        
+        #out {
+            margin-top: 2em;
+        }
+        
+        div.gradient {
+            padding: 0px;
+            border-radius: 0px;
+            text-align: center;
+        }
+        
+        pre {
+            border: 0;
+            background: transparent;
+            color: gray;
+        }
+        
+        div.gradient div {
+            display: inline-block;
+            height: 26px;
+            color: rgba(0, 0, 0, 0);
+        }
+        
+        #cesiumContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        
+        html {
+            height: 100%;
+        }
+        
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .cesium-credit-image {}
+        
+        #circles-slider.ui-slider {
+            border-radius: 20px;
+            background: #eee;
+            border: none;
+            height: 10px;
+            margin: 1em 4em 1em;
+        }
+        
+        #circles-slider .ui-slider-handle {
+            border-radius: 23px;
+            height: 23px;
+            width: 23px;
+            top: -7px;
+            margin-left: -11px;
+            border: 2px solid #888;
+        }
+        
+        #circles-slider .ui-slider-pip {
+            top: 3px;
+        }
+        
+        #circles-slider .ui-slider-handle {
+            z-index: 20;
+        }
+        
+        #circles-slider .ui-slider-pip .ui-slider-line {
+            width: 4px;
+            height: 4px;
+            border-radius: 4px;
+            margin-left: -2px;
+            background: #888;
+        }
+        
+        #circles-slider .ui-slider-pip.ui-slider-pip-last,
+        #circles-slider .ui-slider-pip.ui-slider-pip-first {
+            top: -7px;
+        }
+        
+        #circles-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-line,
+        #circles-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-line {
+            display: none;
+        }
+        
+        #circles-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-label,
+        #circles-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-label {
+            margin: 0;
+        }
+        
+        #circles-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-label {
+            left: -2em;
+            text-align: right;
+        }
+        
+        #circles-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-label {
+            left: 2em;
+            text-align: left;
+        }
+        
+        #circles-slider .ui-slider-pip.ui-slider-pip-selected-initial {
+            font-weight: normal;
+        }
+        
+        #circles-slider .ui-slider-pip.ui-slider-pip-selected {
+            font-weight: bold;
+        }
+        
+        #circles-slider .ui-slider-pip.ui-slider-pip-selected,
+        #circles-slider .ui-slider-pip.ui-slider-pip-selected-initial {
+            color: #ff0000;
+        }
+        
+        #circles-slider .ui-state-hover {
+            background: white;
+        }
+        
+        #progress-slider.ui-slider {
+            border-radius: 20px;
+            background: #fff;
+            border: none;
+            height: 10px;
+            margin: 1em 4em -1.6em;
+        }
+        
+        #progress-slider .ui-slider-handle {
+            border-radius: 23px;
+            height: 23px;
+            width: 23px;
+            top: -7px;
+            margin-left: -11px;
+            border: 2px solid #fffaf7;
+        }
+        
+        #progress-slider {
+            pointer-events: none;
+        }
+        
+        #progress-slider .ui-slider-pip {
+            top: 3px;
+        }
+        
+        #progress-slider .ui-slider-pip .ui-slider-line {
+            width: 4px;
+            height: 4px;
+            border-radius: 4px;
+            margin-left: -2px;
+            background: #fffaf7;
+        }
+        
+        #progress-slider .ui-slider-pip.ui-slider-pip-last,
+        #progress-slider .ui-slider-pip.ui-slider-pip-first {
+            top: -7px;
+        }
+        
+        #progress-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-line,
+        #progress-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-line {
+            display: none;
+        }
+        
+        #progress-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-label,
+        #progress-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-label {
+            margin: 0;
+        }
+        
+        #progress-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-label {
+            left: -2em;
+            text-align: right;
+        }
+        
+        #progress-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-label {
+            left: 2em;
+            text-align: left;
+        }
+        
+        #progress-slider .ui-slider-pip.ui-slider-pip-selected-initial {
+            font-weight: normal;
+        }
+        
+        #progress-slider .ui-slider-pip.ui-slider-pip-selected {
+            font-weight: bold;
+        }
+        
+        #progress-slider .ui-slider-pip.ui-slider-pip-selected,
+        #progress-slider .ui-slider-pip.ui-slider-pip-selected-initial {
+            color: #eee;
+        }
+        
+        #progress-slider .ui-slider-handle {
+            display: none;
+        }
+        
+        #remain-slider.ui-slider {
+            border-radius: 20px;
+            background: #fff;
+            border: none;
+            height: 10px;
+            margin: 1em 4em -1.6em;
+        }
+        
+        #remain-slider .ui-slider-handle {
+            border-radius: 23px;
+            height: 23px;
+            width: 23px;
+            top: -7px;
+            margin-left: -11px;
+            border: 2px solid #fffaf7;
+        }
+        
+        #remain-slider {
+            pointer-events: none;
+        }
+        
+        #remain-slider .ui-widget-header {
+            background: rgba(255, 0, 0, 0.1) url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x !important;
+        }
+        
+        #remain-slider .ui-slider-pip {
+            top: 3px;
+        }
+        
+        #remain-slider .ui-slider-pip .ui-slider-line {
+            width: 4px;
+            height: 4px;
+            border-radius: 4px;
+            margin-left: -2px;
+            background: #fffaf7;
+        }
+        
+        #remain-slider .ui-slider-pip.ui-slider-pip-last,
+        #remain-slider .ui-slider-pip.ui-slider-pip-first {
+            top: -7px;
+        }
+        
+        #remain-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-line,
+        #remain-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-line {
+            display: none;
+        }
+        
+        #remain-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-label,
+        #remain-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-label {
+            margin: 0;
+        }
+        
+        #remain-slider .ui-slider-pip.ui-slider-pip-first .ui-slider-label {
+            left: -2em;
+            text-align: right;
+        }
+        
+        #remain-slider .ui-slider-pip.ui-slider-pip-last .ui-slider-label {
+            left: 2em;
+            text-align: left;
+        }
+        
+        #remain-slider .ui-slider-pip.ui-slider-pip-selected-initial {
+            font-weight: normal;
+        }
+        
+        #remain-slider .ui-slider-pip.ui-slider-pip-selected {
+            font-weight: bold;
+        }
+        
+        #remain-slider .ui-slider-pip.ui-slider-pip-selected,
+        #remain-slider .ui-slider-pip.ui-slider-pip-selected-initial {
+            color: #eee;
+        }
+        
+        #remain-slider .ui-slider-handle {
+            display: none;
+        }
+        
+        #loadingdata {
+            z-index: 1000;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 200px;
+            height: 200px;
+            margin-left: -100px;
+            margin-top: -100px;
+            text-align: center;
+        }
+        
+        .loader {
+            border: 12px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 12px solid #112d50;
+            width: 80px;
+            height: 80px;
+            -webkit-animation: spin 1.5s linear infinite;
+            animation: spin 2s linear infinite;
+            margin-left: 53px;
+            margin-bottom: 15px;
+        }
+        
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <div id="loadingdata" style="z-index:1000;">
+            <div class="loader"></div>
+            Waiting for Results...
+        </div>
+
+        <div id="playbutton" style="display:none;z-index:1000;position:absolute;top:20px;width:30px;">
+            <button type="button" onclick="window.playData()" class="btn btn-primary" style="background-color:#112d50;border:0px">Play</button>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="store" class="col-md-4" style="display:none">
+                </div>
+                <div id="plot" class="col-md-12"></div>
+            </div>
+        </div>
+
+        <div style="position:absolute;bottom:36px;width:100%;">
+            <div id="progress-slider" style="z-index:5"></div>
+            <div id="circles-slider" style="z-index:10;background:rgba(1,1,1,0.15)"></div>
+            <div id="remain-slider" style="z-index:8;top:-28px"></div>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    $.get("../params.run?v=" + Math.round(Math.random() * 1000000), function(d, e) {
+        if (d.indexOf("|") > -1) {
+            var data = d.split("\n")[0].split("|");
+        }
+        else {
+            var data = d.split("\n");
+        }
+        for (var d = 0; d < data.length; d++) {
+            var param = data[d].split(";");
+            if (param[0] == "max_iter") {
+                var max_iter = parseInt(param[2]);
+            }
+        }
+        window.maxiters = max_iter;
+    })
+
+    window.polldelay = 1500;
+
+    window.loadstep = 1;
+    window.playcount = 0;
+    window.playstep = 1;
+    window.playdelay = 1;
+
+    Array.prototype.max = function() {
+        return Math.max.apply(null, this);
+    };
+
+    Array.prototype.min = function() {
+        return Math.min.apply(null, this);
+    };
+
+    Array.prototype.normalize = function() {
+        var n = []
+        for (var i = 0; i < this.length; i++) {
+            n.push((this[i] - this.min()) / (this.max() - this.min()))
+                //n.push((this[i]) / (this.max()))
+        }
+        return n
+    }
+
+    var x = [];
+    var x_old = [];
+
+    var y_mw = [];
+    var y_fit = [];
+    var y_lb = [];
+    var y_mct = [];
+
+    window.playingData = false;
+    window.firstUpdate = true;
+
+    window.showcaseImage = "/results/case_0/out_viewscore.png";
+    window.num_con = 1;
+    window.num_obj = 1;
+
+    window.getData = function() {
+        console.log('getting data');
+
+        x_old = x.slice(0);
+        x = [];
+        y_fit = [];
+        columns = {};
+        y_fits = {};
+
+        $.get("soga.dat?v=" + Math.round(Math.random() * 1000000), function(data) {
+            var data = data.split(/\r?\n/);
+
+            if (data.length > 2) {
+
+                for (var i = 0; i < data[0].split(/[ ,]+/).length; i++) {
+                    if (data[0].split(/[ ,]+/)[i] != '%eval_id' && data[0].split(/[ ,]+/)[i] != '') {
+                        columns[i] = data[0].split(/[ ,]+/)[i];
+                    }
+                }
+
+                // get the best solution
+                /*var optimal_values = [];
+                for (var i = 1; i < data.length - 1; i++) {
+                    if (parseFloat(data[i].split(/[ ,]+/)[sct_i]) == 0 && parseFloat(data[i].split(/[ ,]+/)[pm_i]) == 0) {
+                        optimal_values.push(parseInt(data[i].split(/[ ,]+/)[0]))
+                    }
+                }*/
+                var keys = Object.keys(columns);
+                for (var ii = 0; ii < keys.length; ii++) {
+                    window.y_fits[keys[ii]] = [];
+                }
+
+                for (var i = 1; i < data.length - 1; i++) {
+                    x.push(parseFloat(data[i].split(/[ ,]+/)[0]));
+                    //y_fit.push(parseFloat(data[i].split(/[ ,]+/)[fit_i]));
+                    for (var ii = 0; ii < keys.length; ii++) {
+                        window.y_fits[keys[ii]].push(parseFloat(data[i].split(/[ ,]+/)[keys[ii]]));
+                    }
+                }
+
+                if (x.length == 0) {
+                    setTimeout(function() {
+                        window.getData();
+                    }, window.polldelay)
+                }
+                else {
+
+                    if (x.length != x_old.length && (x.length - x_old.length) - 1 < window.maxiters && (x.length - x_old.length) > 0) {
+
+                        console.log("new iterations:", x.length - x_old.length)
+
+                        // normalize the values
+                        /*var tmp = y_mw.normalize()
+                        y_mw = tmp;
+                        var tmp = y_fit.normalize()
+                        y_fit = tmp;
+                        var tmp = y_lb.normalize()
+                        y_lb = tmp;
+                        var tmp = y_mct.normalize()
+                        y_mct = tmp;*/
+
+                        // preload images
+
+                        if (x.length == window.maxiters) {
+                            var loads = window.playstep
+                        }
+                        else {
+                            // var loads = 1
+                            var loads = window.playstep
+                        }
+
+                        // only do this if images are there
+                        $.get("work_dir/dakota_tmp.1" + window.showcaseImage, function(d, e) {
+                                if (d.indexOf("DOCTYPE HTML") == -1) {
+                                    window.loadImages = true;
+                                    if (window.loadImages == true) {
+                                        console.log('LOADING IMAGES')
+                                        $("#store").css("display", "");
+                                        $("#plot").attr('class', "col-md-8");
+                                        for (var i = x_old.length; i < x.length; i = i + loads) {
+                                            var elem = document.createElement("img");
+                                            elem.setAttribute("src", "work_dir/dakota_tmp." + (i + 1) + window.showcaseImage);
+                                            elem.setAttribute("style", "width:120%;margin-top:10px;border:0;display:none");
+                                            elem.setAttribute("id", "image-" + (i + 1));
+                                            document.getElementById("store").appendChild(elem);
+                                        }
+                                    }
+
+                                }
+                                else {
+                                    window.loadImages = false;
+                                }
+                                continueLoading()
+                            })
+                            .fail(function(e) {
+                                window.loadImages = false;
+                                continueLoading()
+                            })
+
+                        function continueLoading() {
+
+                            if (data.length <= 2) {
+                                $("#loadingdata").css("display", "")
+                                $("#playbutton").css("display", "none")
+                            }
+                            else {
+                                $("#loadingdata").css("display", "none")
+                                $("#playbutton").css("display", "")
+                            }
+
+                            var winner = x.length;
+                            /*if (optimal_values.length == 0) {
+                                var winner = x.length;
+                            }
+                            else {
+                                var winner = optimal_values.max();
+                            }*/
+                            if (window.firstUpdate == true) {
+
+                                var elem = document.createElement("img");
+                                elem.setAttribute("src", "work_dir/dakota_tmp." + winner + window.showcaseImage);
+                                elem.setAttribute("style", "width:120%;margin-top:25px;border:0;");
+                                elem.setAttribute("id", "image-lowest");
+                                document.getElementById("store").appendChild(elem);
+
+                                window.graphData();
+                                renderSliders();
+                                window.firstUpdate = false;
+                            }
+                            else {
+
+                                $("#image-lowest").attr('src', "work_dir/dakota_tmp." + winner + window.showcaseImage);
+
+                                $("#progress-slider").slider('values', [1, x.length]);
+                                $("#remain-slider").slider('values', [x.length, window.maxiters]);
+                                $("#circles-slider").slider('value', x.length);
+                                $(".ui-slider-pip-first").find(".ui-slider-label").text(x.length);
+                                if (x.length != 0) {
+                                    window.updateData(x, x.length);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            else {
+                setTimeout(function() {
+                    window.getData();
+                }, window.polldelay)
+            }
+        });
+
+    }
+
+    var d3 = Plotly.d3;
+    var WIDTH_IN_PERCENT_OF_PARENT = 100,
+        HEIGHT_IN_PERCENT_OF_PARENT = 90;
+    var gd3 = d3.select('#plot')
+        .append('div')
+        .style({
+            width: WIDTH_IN_PERCENT_OF_PARENT + '%',
+            'margin-left': (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + '%',
+
+            height: 'calc( 100vh - 80px )',
+            // height: HEIGHT_IN_PERCENT_OF_PARENT + 'vh',
+            //  'margin-top': (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + 'vh'
+        });
+
+    window.getData();
+
+    window.graphData = function() {
+
+        //if (x.length == window.maxiters) {
+        //    var startx = [1]
+        //}
+        //else {
+        var startx = x;
+        //}
+
+        window.data = [];
+
+        var keys = Object.keys(columns);
+
+        for (var ii = keys.length - 1; ii >= 0; ii--) {
+            if (ii >= keys.length - window.num_con) {
+                var visible = true;
+                var axis = 'y2';
+            }
+            else if (ii >= keys.length - (window.num_obj + window.num_con) && ii < keys.length - window.num_con) {
+                var visible = true;
+                var axis = 'y1';
+            }
+            else {
+                var visible = 'legendonly';
+                var axis = 'y1';
+            }
+            var object = {
+                name: columns[keys[ii]],
+                x: startx,
+                y: window.y_fits[keys[ii]],
+                type: 'scatter',
+                visible: visible,
+                yaxis: axis
+            };
+            window.data.push(object);
+        }
+
+        if (window.num_con > 0) {
+            window.layout = {
+                //title: 'SOGA Results',
+                //autosize: true,
+                showlegend: true,
+                xaxis: {
+                    type: 'linear',
+                    zeroline: false
+                },
+                yaxis: {
+                    title: 'metric',
+                    type: 'linear',
+                    zeroline: false
+                },
+                yaxis2: {
+                    title: 'area (sq. meters)',
+                    type: 'linear',
+                    zeroline: false,
+                    overlaying: 'y',
+                    side: 'right'
+                },
+                zaxis: {
+                    type: 'linear',
+                    zeroline: false
+                },
+                margin: {
+                    l: 50,
+                    r: 30,
+                    b: 50,
+                    t: 0
+                },
+                legend: {
+                    "orientation": "h"
+                }
+            };
+        }
+        else {
+            window.layout = {
+                //title: 'SOGA Results',
+                //autosize: true,
+                showlegend: true,
+                xaxis: {
+                    type: 'linear',
+                    zeroline: false
+                },
+                yaxis: {
+                    title: 'metric',
+                    type: 'linear',
+                    zeroline: false
+                },
+                zaxis: {
+                    type: 'linear',
+                    zeroline: false
+                },
+                margin: {
+                    l: 50,
+                    r: 30,
+                    b: 50,
+                    t: 0
+                },
+                legend: {
+                    "orientation": "h"
+                }
+            };
+        }
+
+        window.gd = gd3.node();
+
+        window.plot = Plotly.plot(window.gd, window.data, window.layout, {
+            displayModeBar: false,
+            scrollZoom: true,
+            modeBarButtonsToRemove: ['sendDataToCloud'],
+            displaylogo: false
+        });
+
+        window.onresize = function() {
+            Plotly.Plots.resize(window.gd);
+        };
+
+        if (x.length == window.maxiters) {
+            //setTimeout(function() {
+            //window.playData();
+            //})
+        }
+        else {
+            setTimeout(function() {
+                window.pollLiveData();
+            }, 100)
+        }
+
+    };
+
+
+    function shuffle(array) {
+        var currentIndex = array.length,
+            temporaryValue, randomIndex;
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+        return array;
+    }
+
+    function indexOfSmallest(a) {
+        return a.indexOf(Math.min.apply(Math, a));
+    }
+
+    function indexOfLargest(a) {
+        return a.indexOf(Math.max.apply(Math, a));
+    }
+
+    window.playData = function() {
+        window.playingData = true;
+
+        window.playInterval = setInterval(function() {
+            var xt = x.slice(0, window.playcount);
+            $("#image-lowest").css("display", "none");
+            $("#image-" + (window.playcount - window.playstep + 1)).css("display", "none")
+            $("#image-" + (window.playcount + 1)).css("display", "")
+                // loop through the data and adjust the plot
+            var keys = Object.keys(columns).reverse();
+            for (var ii = 0; ii < keys.length; ii++) {
+                window.data[ii].x = (xt);
+                window.data[ii].y = (window.y_fits[keys[ii]].slice(0, window.playcount));
+            }
+            Plotly.redraw(window.gd, window.data, window.layout);
+
+            $("#progress-slider").slider('values', [1, window.playcount]);
+            //$("#remain-slider").slider('values', [window.playcount, window.maxiters]);
+            $("#circles-slider").slider('value', window.playcount);
+
+            $(".ui-slider-pip-first").find(".ui-slider-label").text(window.playcount);
+
+            window.playcount += window.playstep;
+            if (window.playcount > x.length) {
+
+                console.log('playing complete');
+                clearInterval(window.playInterval);
+
+                // display the winning solution
+                $("#image-" + (window.playcount - window.playstep + 1)).css("display", "none");
+                $("#image-lowest").css("display", "");
+
+                /*
+                                var keys = Object.keys(columns).reverse();
+                                for (var ii = 0; ii < keys.length; ii++) {
+                                    window.data[ii].x = (xt);
+                                    window.data[ii].y = (window.y_fits[keys[ii]].slice(0, window.playcount));
+                                }
+
+                                Plotly.redraw(window.gd, window.data, window.layout);
+
+                                $("#progress-slider").slider('values', [1, x.length - 1]);
+                                $("#remain-slider").slider('values', [x.length - 1, window.maxiters]);
+                                $("#circles-slider").slider('value', x.length - 1);
+                */
+
+                window.playingData = false;
+                window.playcount = 0;
+
+                setTimeout(function() {
+
+                    /*
+                                        for (var i = 0; i < x.length; i = i + window.loadstep) {
+                                            if ((i % window.playstep) != 0) {
+                                                console.log("results/png/" + (i + 1) + "out.png")
+                                                var elem = document.createElement("img");
+                                                elem.setAttribute("src", "results/png/" + (i + 1) + "out.png");
+                                                elem.setAttribute("style", "width:100%;height:100%;border:0;display:none");
+                                                elem.setAttribute("id", "image-" + (i + 1));
+                                                document.getElementById("store").appendChild(elem);
+                                            }
+                                        }
+                    */
+                    //window.playData();
+                }, 3500)
+            }
+        }, window.playdelay)
+
+    }
+
+    window.updateData = function(xn, xi) {
+        //console.log('updating data');
+        var xt = xn.slice(0, xi);
+        $("#image-" + (window.lastSlide)).css("display", "none")
+        if (x.length == xi) {
+            $("#image-lowest").css("display", "");
+        }
+        else {
+            $("#image-lowest").css("display", "none");
+            $("#image-" + (xi)).css("display", "")
+        }
+        // loop through the data and adjust the plot
+        var keys = Object.keys(columns).reverse();
+        for (var ii = 0; ii < keys.length; ii++) {
+            window.data[ii].x = (xt);
+            window.data[ii].y = (window.y_fits[keys[ii]].slice(0, xi));
+        }
+
+        Plotly.redraw(window.gd, window.data, window.layout);
+        window.lastSlide = xi;
+
+    }
+
+    window.pollLiveData = function() {
+        window.liveInterval = setInterval(function() {
+            if (x.length == window.maxiters) {
+                console.log('max iterations reached')
+                clearInterval(window.liveInterval);
+                setTimeout(function() {
+                    window.playData()
+                }, 100)
+            }
+            else {
+                if (window.playingData == false) {
+                    window.getData();
+                }
+            }
+        }, window.polldelay)
+    }
+
+    function renderSliders() {
+
+        var max = window.maxiters;
+
+        $("#progress-slider")
+            .slider({
+                min: 1,
+                max: max,
+                values: [1, x.length],
+                step: window.loadstep,
+                range: true
+            })
+            .slider("float");
+
+        $("#remain-slider")
+            .slider({
+                min: 1,
+                max: max,
+                values: [x.length, max],
+                step: window.loadstep,
+                range: true
+            })
+            .slider("float");
+
+        setTimeout(function() {
+            $(".ui-slider-pip-first").find(".ui-slider-label").text(x.length);
+        }, 100)
+
+        window.lastSelect = null;
+
+        $("#circles-slider")
+            .slider({
+                min: 1,
+                max: max,
+                value: x.length,
+                step: window.loadstep,
+                slide: function(e, ui) {
+
+                    //console.log("slide " + ui.value);
+                    if (ui.value > x.length) {
+                        e.preventDefault();
+                        return null;
+                    }
+
+                    if (x.length != 0) {
+                        window.updateData(x, ui.value)
+                    }
+
+                    $("#progress-slider").slider('values', [0, ui.value]);
+                    $("#remain-slider").slider('values', [x.length, max]);
+
+                    $(".ui-slider-pip-first").find(".ui-slider-label").text(ui.value);
+
+
+                },
+                change: function(e, ui) {
+
+                    console.log("change " + ui.value);
+
+                    window.currentValue = ui.value;
+
+                }
+            })
+            .slider("pips");
+    }
+</script>
+
+</html>

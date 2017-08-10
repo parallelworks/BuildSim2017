@@ -1,0 +1,65 @@
+<tool id='buildsim2017_comfort_explorer_test1' name='buildsim2017_comfort_explorer_test1'>
+<command interpreter='swift'>dakota.swift</command>
+	<inputs>  
+		<section name='dakota' type='section' title='Dakota Parameters' expanded='true'> 
+			<param name='study' type='select' value='doe' label='Design Study' help='doe, surr, soga, soga_surr' width='50%' argument='dakota'>
+	            <option value="doe" selected="true">Design of Experiement</option>
+	            <option value="surr" selected="true">Surrogate Model</option>
+	            <option value="soga" selected="true">Single Objective Optimization</option>
+	            <option value="soga_surr" selected="true">SOGA over Surrogate</option>
+			</param>
+			<param name='eval_con' type='integer' min="1" max="100" value='10' label='Evaluation Concurrency' help='Whitespace delimited or range/step (e.g. min:max:step)' width='50%' argument='dakota'>
+			</param>
+			<param name='num_exp' type='text' value='10' label='Numer of DOE Experiments' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='dakota'>
+			</param>
+			<param name='pop_size' type='text' value='10' label='SOGA Population Size' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='dakota'>
+			</param>
+			<param name='max_iter' type='text' value='1000' label='SOGA Max Iterations' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='dakota'>
+			</param>
+			<param name='points'  optional='true' type='data' format='dat' label='Surrogate Prediction Points' help='Points to predict for surrogate model.' width='50%' argument='dakota'>
+			</param>
+			<param name='samples'  optional='true' type='data' format='dat' label='Surrogate Sample Data' help='DAT samples from previous Dakota run.' width='50%' argument='dakota'>
+			</param>
+		</section> 
+		<section name='simulation' type='section' title='Simulation Parameters' expanded='false'> 
+			<param name='num_proc' type='text' value='4' label='num_proc' help='Whitespace delimited or range/step (e.g. min:max:step)' width='50%' argument='simulation'>
+			</param>
+			<param name='end_time' type='text' value='500' label='end_time' help='Whitespace delimited or range/step (e.g. min:max:step)' width='50%' argument='simulation'>
+			</param>
+			<param name='mesh_resolution' type='text' value='50' label='mesh_resolution' help='Whitespace delimited or range/step (e.g. min:max:step)' width='50%' argument='simulation'>
+			</param>
+		</section> 
+		<section name='geometry' type='section' title='Geometry Parameters' expanded='false'> 
+			<param name='duct_outlet_width' type='text' value='0.1:1:0.1' label='duct_outlet_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='duct_width' type='text' value='0.25:1:0.25' label='duct_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='outlet_width' type='text' value='0.2' label='outlet_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='outlet_height' type='text' value='0.5:2.5:0.5' label='outlet_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='duct_window_margin' type='text' value='0.25:1:0.25' label='duct_window_margin' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='outlet_length' type='text' value='1' label='outlet_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='duct_outlet_length' type='text' value='0.5:1.5:0.1' label='duct_outlet_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+		</section> 
+		<section name='bc' type='section' title='BC Parameters' expanded='false'> 
+			<param name='inlet_velocity' type='text' value='5:15:5' label='inlet_velocity' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='bc'>
+			</param>
+			<param name='floor_flux' type='text' value='800' label='floor_flux' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='bc'>
+			</param>
+			<param name='glass_temp' type='text' value='310' label='glass_temp' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='bc'>
+			</param>
+			<param name='inlet_temp' type='text' value='280' label='inlet_temp' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='bc'>
+			</param>
+		</section> 
+	</inputs> 
+	<outputs> 
+		<data name='dat' format='dat' label='DAT.${tool.name}.dat'> 
+		</data>
+		<data name='iter' format='html' label='HTML.${tool.name}.html'> 
+		</data>
+	</outputs> 
+</tool> 

@@ -1,0 +1,13 @@
+<tool id='buildsim2017_radiance_test' name='buildsim2017_radiance_test'>
+  <command interpreter='swift'>rad.swift</command>
+  <inputs>
+    <param name='cases' type='data' label='Case List (.csv)' format='csv' width='50%'>
+    </param>
+    <param name='geometry' type='data' label='Geometry (.obj)' format='obj' width='50%'>
+    </param>
+  </inputs>
+  <outputs>
+    <data name='result' format='tgz' label='result.${tool.name}'>
+    </data>
+  </outputs>
+</tool>

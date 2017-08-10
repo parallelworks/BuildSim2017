@@ -1,0 +1,69 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|       o          |                                                          |
+|    o     o       | HELYX-OS                                                  |
+|   o   O   o      | Version: v2.4.0                                           |
+|    o     o       | Web:     http://www.engys.com                            |
+|       o          |                                                          |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version 2.0;
+    format ascii;
+    class dictionary;
+    location system;
+    object controlDict;
+}
+
+    startFrom startTime;
+    startTime 0;
+    stopAt endTime;
+    endTime @@end_time@@;
+    deltaT 1;
+    writeControl timeStep;
+    writeInterval @@end_time@@;
+    purgeWrite 0;
+    writeFormat ascii;
+    writePrecision 10;
+    writeCompression uncompressed;
+    timeFormat general;
+    timePrecision 6;
+    graphFormat raw;
+    runTimeModifiable true;
+    
+   functions
+    {
+
+        AoA
+        {
+            type scalarTransport;
+            field AoA;
+            functionObjectLibs ( "libsolverFunctionObjects.so");
+            outputControl outputTime;
+            active true;
+            autoSchemes false;
+            nCorr 0;
+            resetOnStartUp false;
+            log true;
+            fvOptions
+            {
+                IncrementTime
+                {
+                    type scalarSemiImplicitSource;
+                    active true;
+                    selectionMode all;
+                    cellZone Layers;
+                    scalarSemiImplicitSourceCoeffs
+                    {
+                        volumeMode specific;
+                        selectionMode all;
+                        injectionRateSuSp
+                        {
+                            AoA ( 1 0);
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+    }

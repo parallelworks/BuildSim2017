@@ -1,0 +1,23 @@
+{
+    "viewscore": {
+        "invertcolor": "1", 
+        "min": "0", 
+        "max": "max", 
+        "image": "iso", 
+        "imageflip": "true", 
+        "colorscale": "Blues", 
+        "field": "ViewScore", 
+        "discretecolors": "5", 
+        "bodyopacity": "1", 
+        "type": "Basic",
+        "context": "output/water.stl;133,217,255,0.25|output/ground.stl;162,224,138,0.25",
+        "blender": "true",
+        "sense": "max",
+	    "weight": "1"
+    },
+    "area_sqm":{
+        "type": "RangeConstraint",
+        "lower_bounds": "30000",
+        "upper_bounds": "40000"
+    }
+}

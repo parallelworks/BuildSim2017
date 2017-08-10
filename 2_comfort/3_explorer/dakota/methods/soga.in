@@ -1,0 +1,87 @@
+environment
+    	tabular_data
+        tabular_data_file = 'out.dat'
+        method_pointer = 'SOGA'
+        custom_annotated header eval_id
+
+method
+ id_method = 'SOGA'                              
+ model_pointer = 'SOGA_M'     
+    output quiet
+    
+   	max_function_evaluations = @@MAX_ITERATIONS@@
+   	seed = 2315
+   	final_solutions = 10
+   	
+    population_size = @@POPULATION_SIZE@@
+    #print_each_pop
+    
+    #initialization_type flat_file = 'init_pop_new.dat'
+    initialization_type simple_random
+    
+    soga
+    fitness_type merit_function
+    constraint_penalty = 0.9
+    replacement_type favor_feasible  # elitist, unique_roulette_wheel, favor_feasible
+    crossover_type shuffle_random
+	   num_offspring = 2 num_parents = 2
+    #crossover_type multi_point_parameterized_binary = 2
+    crossover_rate = 0.8 #$crossover_rate
+    mutation_type replace_uniform
+    mutation_rate = 0.08 #$mutation_rate
+   	convergence_type average_fitness_tracker 
+   	percent_change = 0.05
+   	num_generations = 100000000 # force run until completion
+    
+model                                                 
+ id_model = 'SOGA_M'                             
+ single                                                   
+ variables_pointer = 'V1' 
+ interface_pointer = 'I1'                     
+ responses_pointer = 'R1' 
+
+variables
+ id_variables = 'V1'
+ 
+ descriptors @@INPUT_DESCRIPTORS@@
+ 
+ discrete_design_set 
+ real = @@NUMBER_OF_INPUTS@@
+ num_set_values = @@NUM_SET_VALUES@@
+ set_values = @@SET_VALUES@@
+ 
+ #continuous_design = @@NUMBER_OF_INPUTS@@
+ #lower_bounds =  @@MIN_INPUTS@@
+ #upper_bounds =  @@MAX_INPUTS@@
+
+interface
+ id_interface = 'I1'
+    fork
+        asynchronous
+          evaluation_concurrency = @@EVALUATION_CONCURRENCY@@
+          local_evaluation_scheduling dynamic
+# When using work_directory, the analysis_drivers may be given by:
+# 1) an absolute path, 2) located in (or relative to) the startup directory alongside the Dakota input file, 3) in the list of template files linked or copied, 4) or on the $PATH (Path% on Windows).
+        analysis_driver = 'simulator_script'
+        parameters_file = 'params.in'
+        results_file    = 'results.out'
+        work_directory directory_tag
+        named = 'work_dir/dakota_tmp'
+        directory_save
+        replace
+        copy_files = 'templatedir/*'
+   # named 'workdir' file_save directory_save
+        aprepro
+   deactivate active_set_vector evaluation_cache
+
+responses
+ id_responses = 'R1'   
+  	objective_functions = @@NUMBER_OF_OUTPUTS@@
+  	sense = @@OUTPUTS_SENSES@@
+  	weights @@OUTPUTS_WEIGHTS@@
+  	no_gradients
+  	no_hessians
+ descriptors @@OUTPUT_DESCRIPTORS@@
+ nonlinear_inequality_constraints = @@NUMBER_OF_CONSTRAINTS@@
+ nonlinear_inequality_lower_bounds @@CONSTRAINT_LOWER_BOUNDS@@
+ nonlinear_inequality_upper_bounds @@CONSTRAINT_UPPER_BOUNDS@@

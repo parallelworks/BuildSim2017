@@ -1,0 +1,2 @@
+viewscore(ave)
+area_sqm;results/case_@@i@@/area.txt;;" ";0

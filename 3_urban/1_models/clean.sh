@@ -1,0 +1,1 @@
+rm outputs -R > /dev/null 2>&1

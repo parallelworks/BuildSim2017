@@ -1,0 +1,45 @@
+<tool id='test_params_forms' name='test_params_forms'>  
+	<command interpreter='swift'>main.swift</command>     
+	<inputs>  
+		<section name='simulation' type='section' title='Simulation Parameters' expanded='true'> 
+			<param name='num_proc' type='text' value='4' label='num_proc' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='simulation'>
+			</param>
+			<param name='end_time' type='text' value='500' label='end_time' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='simulation'>
+			</param>
+			<param name='mesh_resolution' type='text' value='50' label='mesh_resolution' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='simulation'>
+			</param>
+		</section> 
+		<section name='geometry' type='section' title='Geometry Parameters' expanded='true'> 
+			<param name='duct_outlet_width' type='text' value='0.1:0.3:0.1' label='duct_outlet_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='duct_width' type='text' value='0.3' label='duct_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='outlet_width' type='text' value='0.2' label='outlet_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='outlet_height' type='text' value='2.5' label='outlet_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='duct_window_margin' type='text' value='0.25:0.5:0.25' label='duct_window_margin' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='outlet_length' type='text' value='1' label='outlet_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+			<param name='duct_outlet_length' type='text' value='0.5:1.5:0.5' label='duct_outlet_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='geometry'>
+			</param>
+		</section> 
+		<section name='bc' type='section' title='BC Parameters' expanded='true'> 
+			<param name='inlet_velocity' type='text' value='5:15:5' label='inlet_velocity' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='bc'>
+			</param>
+			<param name='floor_flux' type='text' value='800' label='floor_flux' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='bc'>
+			</param>
+			<param name='glass_temp' type='text' value='310' label='glass_temp' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='bc'>
+			</param>
+			<param name='inlet_temp' type='text' value='280' label='inlet_temp' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='bc'>
+			</param>
+		</section> 
+	</inputs> 
+	<outputs> 
+		<data name='csv' format='csv' label='CSV.${tool.name}'> 
+		</data>
+		<data name='html' format='html' label='HTML.${tool.name}'> 
+		</data>
+	</outputs> 
+</tool> 

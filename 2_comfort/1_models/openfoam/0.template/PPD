@@ -1,0 +1,91 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      PPD;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+
+    //- Set patchGroups for constraint patches
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    interior_Glass
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_Floor
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_SideRight
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_SideLeft
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_SideBack
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_Ceiling
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_Duct
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_Inlet
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_Outlet
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+    interior_Person1
+    {
+        type            calculated;
+        value           uniform 0;
+    }
+
+}
+
+
+// ************************************************************************* //

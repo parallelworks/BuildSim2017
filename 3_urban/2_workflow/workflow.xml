@@ -1,0 +1,73 @@
+<tool id='test_params_forms' name='test_params_forms'>  
+	<command interpreter='swift'>main.swift</command>     
+	<inputs>  
+		<section name='building1' type='section' title='Building1 Parameters' expanded='true'> 
+			<param name='building1_length' type='text' value='60' label='building1_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			</param>
+			<param name='building1_height' type='text' value='20' label='building1_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			</param>
+			<param name='building1_width' type='text' value='40' label='building1_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			</param>
+			<param name='building1_orient' type='text' value='0' label='building1_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			</param>
+			<param name='building1_centerX' type='text' value='35' label='building1_centerX' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			</param>
+			<param name='building1_centerY' type='text' value='40' label='building1_centerY' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			</param>
+		</section> 
+		<section name='building2' type='section' title='Building2 Parameters' expanded='true'> 
+			<param name='building2_orient' type='text' value='0' label='building2_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			</param>
+			<param name='building2_height' type='text' value='60' label='building2_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			</param>
+			<param name='building2_width' type='text' value='50' label='building2_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			</param>
+			<param name='building2_centerY' type='text' value='50' label='building2_centerY' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			</param>
+			<param name='building2_centerX' type='text' value='100' label='building2_centerX' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			</param>
+			<param name='building2_length' type='text' value='50' label='building2_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			</param>
+		</section> 
+		<section name='building3' type='section' title='Building3 Parameters' expanded='true'> 
+			<param name='building3_height' type='text' value='90' label='building3_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			</param>
+			<param name='building3_orient' type='text' value='10' label='building3_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			</param>
+			<param name='building3_length' type='text' value='65' label='building3_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			</param>
+			<param name='building3_centerX' type='text' value='120' label='building3_centerX' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			</param>
+			<param name='building3_centerY' type='text' value='125' label='building3_centerY' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			</param>
+			<param name='building3_width' type='text' value='35' label='building3_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			</param>
+		</section> 
+		<section name='site' type='section' title='Site Parameters' expanded='false'> 
+			<param name='site_water' type='text' value='70' label='site_water' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='site'>
+			</param>
+			<param name='site_length' type='text' value='165' label='site_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='site'>
+			</param>
+			<param name='site_width' type='text' value='150' label='site_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='site'>
+			</param>
+		</section> 
+		<section name='domain' type='section' title='Domain Parameters' expanded='false'> 
+			<param name='domain_length' type='text' value='500' label='domain_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='domain'>
+			</param>
+			<param name='domain_length_margin' type='text' value='0.25' label='domain_length_margin' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='domain'>
+			</param>
+			<param name='domain_orient' type='text' value='0' label='domain_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='domain'>
+			</param>
+			<param name='domain_width' type='text' value='300' label='domain_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='domain'>
+			</param>
+			<param name='domain_height' type='text' value='200' label='domain_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='domain'>
+			</param>
+		</section> 
+	</inputs> 
+	<outputs> 
+		<data name='csv' format='csv' label='CSV.${tool.name}.csv'> 
+		</data>
+		<data name='html' format='html' label='HTML.${tool.name}.html'> 
+		</data>
+	</outputs> 
+</tool> 
