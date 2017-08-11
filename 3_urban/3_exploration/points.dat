@@ -1,2 +1,3 @@
-50 50 50 50 50 50 50 50 50
-35 35 35 35 35 35 35 35 35
+building2_width building2_length building2_height building2_orient
+50 50 50 0
+50 50 50 30

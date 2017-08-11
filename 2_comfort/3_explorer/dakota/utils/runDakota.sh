@@ -63,15 +63,19 @@ fi
 
 if [[ "$study" == "soga" ]] || [[ "$study" == "soga_surr" ]];then
     #python templatedir/graph_soga.py $datfile $htmlfile
+
 pwpath="/export/galaxy-central/database/job_working_directory"
 if [[ "$path" == *"$pwpath"* ]];then
     basedir="$(echo /download$path/$(basename $datfile) | sed "s|$pwpath||g" )"
     paramsrun="$(echo /download$path/params.run | sed "s|$pwpath||g" )"
     sed -i "s|soga.dat|$basedir|g" soga-results.html
     sed -i "s|../params.run|$paramsrun|g" soga-results.html
+else
+    sed -i "s|soga.dat|$(basename $datfile)|g" soga-results.html
 fi
     cp soga-results.html $htmlfile
 fi
+
 
 if [[ "$study" == "surr" ]];then
     echo "working" > $htmlfile

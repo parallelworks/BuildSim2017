@@ -14,53 +14,53 @@
 			</param>
 			<param name='pop_size' type='text' value='10' label='SOGA Population Size' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='dakota'>
 			</param>
-			<param name='max_iter' type='text' value='1000' label='SOGA Max Iterations' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='dakota'>
+			<param name='max_iter' type='text' value='100' label='SOGA Max Iterations' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='dakota'>
 			</param>
 			<param name='points'  optional='true' type='data' format='dat' label='Surrogate Prediction Points' help='Points to predict for surrogate model.' width='50%' argument='dakota'>
 			</param>
 			<param name='samples'  optional='true' type='data' format='dat' label='Surrogate Sample Data' help='DAT samples from previous Dakota run.' width='50%' argument='dakota'>
 			</param>
 		</section> 
-		<section name='building1' type='section' title='Building1 Parameters' expanded='true'> 
-			<param name='building1_length' type='text' value='60' label='building1_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+		<section name='building1' type='section' title='Building1 Parameters' expanded='false'> 
+			<param name='building1_width' type='text' value='50' label='building1_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
 			</param>
-			<param name='building1_height' type='text' value='20' label='building1_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			<param name='building1_length' type='text' value='50' label='building1_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
 			</param>
-			<param name='building1_width' type='text' value='40' label='building1_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
-			</param>
-			<param name='building1_orient' type='text' value='0' label='building1_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			<param name='building1_height' type='text' value='60' label='building1_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
 			</param>
 			<param name='building1_centerX' type='text' value='35' label='building1_centerX' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
 			</param>
 			<param name='building1_centerY' type='text' value='40' label='building1_centerY' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
 			</param>
+			<param name='building1_orient' type='text' value='0' label='building1_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building1'>
+			</param>
 		</section> 
 		<section name='building2' type='section' title='Building2 Parameters' expanded='true'> 
-			<param name='building2_orient' type='text' value='0' label='building2_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			<param name='building2_width' type='text' value='30:60:5' label='building2_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
 			</param>
-			<param name='building2_height' type='text' value='60' label='building2_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			<param name='building2_length' type='text' value='30:60:5' label='building2_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
 			</param>
-			<param name='building2_width' type='text' value='50' label='building2_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
-			</param>
-			<param name='building2_centerY' type='text' value='50' label='building2_centerY' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			<param name='building2_height' type='text' value='20:60:5' label='building2_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
 			</param>
 			<param name='building2_centerX' type='text' value='100' label='building2_centerX' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
 			</param>
-			<param name='building2_length' type='text' value='50' label='building2_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			<param name='building2_centerY' type='text' value='50' label='building2_centerY' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
+			</param>
+			<param name='building2_orient' type='text' value='0:90:5' label='building2_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building2'>
 			</param>
 		</section> 
 		<section name='building3' type='section' title='Building3 Parameters' expanded='true'> 
-			<param name='building3_height' type='text' value='90' label='building3_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
-			</param>
-			<param name='building3_orient' type='text' value='10' label='building3_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			<param name='building3_width' type='text' value='35' label='building3_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
 			</param>
 			<param name='building3_length' type='text' value='65' label='building3_length' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			</param>
+			<param name='building3_height' type='text' value='90' label='building3_height' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
 			</param>
 			<param name='building3_centerX' type='text' value='120' label='building3_centerX' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
 			</param>
 			<param name='building3_centerY' type='text' value='125' label='building3_centerY' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
 			</param>
-			<param name='building3_width' type='text' value='35' label='building3_width' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
+			<param name='building3_orient' type='text' value='10' label='building3_orient' help='Whitespace delimited or range/step (e.g. min:max:step)' width='33.3%' argument='building3'>
 			</param>
 		</section> 
 		<section name='site' type='section' title='Site Parameters' expanded='false'> 

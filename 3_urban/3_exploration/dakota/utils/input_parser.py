@@ -133,13 +133,16 @@ with open(json_file_name) as json_file :
 	con_out=0
 	output_con_upper=""
 	output_con_lower=""
-	if ("soga" in study):
-		for ii in jf.keys() :
+	for ii in jf.keys() :
 			if jf[ii].get('extractStats','true') != 'false':
 				if ( "Constraint" in jf[ii].get('type')):
-					con_out=con_out+1
-					output_descriptors = output_descriptors + " \\'" + ii + "\\' "
-		if (con_out!=0):
+					if ("soga" in study):
+						con_out=con_out+1
+						output_descriptors = output_descriptors + " \\'" + ii + "\\' "
+					else:
+						num_out=num_out+1
+						output_descriptors = output_descriptors + " \\'" + ii + "\\' "
+	if (con_out!=0):
 			# add the upper/lower bounds
 			for ii in jf.keys() :
 				if jf[ii].get('extractStats','true') != 'false':
