@@ -76,11 +76,6 @@ fi
     cp soga-results.html $htmlfile
 fi
 
-
-if [[ "$study" == "surr" ]];then
-    echo "working" > $htmlfile
-fi
-
 #delete dakota files
 ./templatedir/dakota_cleanup
 
